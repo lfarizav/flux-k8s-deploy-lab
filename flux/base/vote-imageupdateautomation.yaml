@@ -1,0 +1,27 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  annotations:
+    reconcile.fluxcd.io/requestedAt: "2025-01-27T23:46:01.620643833Z"
+  name: instavote-all
+  namespace: instavote
+spec:
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: lfarizav@gmail.com
+        name: lfarizav
+      messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
+    push:
+      branch: main
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: instavote-deploy
+  update:
+    path: ./kustomize/vote/staging
+    strategy: Setters
